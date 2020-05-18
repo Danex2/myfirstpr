@@ -1,24 +1,22 @@
 import Layout from "../components/layout";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 export default function Create() {
-  const [tag, setTag] = React.useState([]);
-  const [input, setInput] = React.useState("");
-
-  const keyPressed = (e) => {
-    if (tag.length === 3) {
-      return;
-    }
-    if (e.key === "Enter") {
-      setTag([...tag, input]);
-    }
-  };
-  const removeTag = (item) => {
-    const arr = tag.filter((i) => i !== item);
-    setTag(arr);
-  };
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const router = useRouter();
+  const onSubmit = (data) => {
+    fetch("/api/new", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then(() => router.push("/"))
+      .catch((e) => console.error(e));
+  };
   return (
     <Layout title="Create">
       <div className="flex-grow bg-gray-200">
@@ -33,6 +31,7 @@ export default function Create() {
               placeholder="Github username"
               name="user"
               ref={register}
+              required
             />
           </label>
           <label className="block col-span-4 sm:col-span-2">
@@ -42,6 +41,7 @@ export default function Create() {
               placeholder="Github project name"
               name="name"
               ref={register}
+              required
             />
           </label>
           <label className="block col-span-4 sm:col-span-2">
@@ -69,32 +69,14 @@ export default function Create() {
               <option value="c++">C++</option>
             </select>
           </label>
-          <label className="block col-span-4 sm:col-span-2">
-            <span className="text-gray-700">Tags</span>
-            <input
-              className="form-input mt-1 block w-full p-2 rounded border-2 border-gray-300"
-              placeholder="Add up to a maximum of 3 tags"
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={keyPressed}
-            />
-            <ul className="flex">
-              {tag.map((t, i) => (
-                <li key={i} className="mr-3">
-                  {t}
-                  <button type="button" onClick={() => removeTag(t)}>
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </label>
-          <label className="block col-span-4 sm:col-span-2">
+          <label className="block col-span-4">
             <span className="text-gray-700">Repo Link</span>
             <input
               className="form-input mt-1 block w-full p-2 rounded border-2 border-gray-300"
               placeholder="Project Link"
               name="repo"
               ref={register}
+              required
             />
           </label>
           <button
