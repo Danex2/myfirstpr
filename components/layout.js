@@ -1,16 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
-import { useAuthState } from "react-firebase-hooks/auth";
-import firebase from "../firebase/config";
 
 export default ({ children, title = "This is the default title" }) => {
-  const { initialising, user } = useAuthState(firebase.auth());
-  const authenticate = () => {
-    const provider = new firebase.auth.GithubAuthProvider();
-    provider.addScope("repo");
-    firebase.auth().signInWithRedirect(provider);
-  };
-  console.log(user);
   return (
     <div className="flex flex-col min-h-screen" style={{ fontFamily: "Inter" }}>
       <Head>
@@ -27,44 +18,15 @@ export default ({ children, title = "This is the default title" }) => {
           <Link href="/">
             <a className="font-semibold text-white">My First PR</a>
           </Link>
-          {user ? (
-            <div className="flex items-center text-blue-500">
+
+          <div className="flex">
+            <div className="flex items-center text-blue-500 mr-3">
               {" "}
               <Link href="/create">
                 <a>Create</a>
               </Link>
-              <svg
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                className="h-5"
-              >
-                <path d="M9 5l7 7-7 7"></path>
-              </svg>
             </div>
-          ) : (
-            <div
-              className="flex items-center text-blue-500"
-              onClick={authenticate}
-            >
-              {" "}
-              <p>Login with Github</p>
-              <svg
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                className="h-5"
-              >
-                <path d="M9 5l7 7-7 7"></path>
-              </svg>
-            </div>
-          )}
+          </div>
         </nav>
       </header>
 
