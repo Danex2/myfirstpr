@@ -10,12 +10,12 @@ export default function Home() {
   }, []);
   return (
     <Layout title="Home">
-      <div className="flex-grow bg-gray-200 p-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+      <div className="grid flex-grow grid-cols-1 gap-3 p-5 bg-gray-200 grid-auto-flow lg:grid-cols-2 xl:grid-cols-3">
         {projects.map(
           ({ id, name, user, language, description, repo, createdAt }) => (
             <div
               key={id}
-              className="bg-white w-auto pt-5 px-10 pb-5 rounded shadow-lg"
+              className="h-48 px-10 pt-5 pb-5 bg-white rounded shadow-lg"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
@@ -33,12 +33,12 @@ export default function Home() {
                   <p className="ml-1 text-sm">{user}</p>
                 </div>
                 <p className="font-semibold">{name}</p>
-                <div className="bg-yellow-300 p-2 rounded border border-black">
+                <div className="p-2 bg-yellow-300 border border-black rounded">
                   <p className="text-sm">{language}</p>
                 </div>
               </div>
-              <p className="text-gray-500 text-sm">{description}</p>
-              <div className="flex justify-between items-baseline mt-10">
+              <p className="text-sm text-gray-500">{description}</p>
+              <div className="flex items-baseline justify-between mt-10">
                 <a
                   href={repo}
                   className="text-sm text-blue-500"
